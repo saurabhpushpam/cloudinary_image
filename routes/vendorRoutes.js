@@ -1,17 +1,17 @@
-const express= require("express");
-const get_route= express();
+const express = require("express");
+const get_route = express();
 
-const auth= require("../middleware/auth");
-const storecontroller= require("../controllers/admincontroller");
-const user_controller= require("../controllers/vendorController");
-const xcontroller= require("../controllers/xcontroler");
+const auth = require("../middleware/auth");
+const storecontroller = require("../controllers/admincontroller");
+const user_controller = require("../controllers/vendorController");
+const xcontroller = require("../controllers/xcontroler");
 
-const path= require("path");
+const path = require("path");
 
-const bodyParser= require("body-parser");
-get_route.use(bodyParser.urlencoded({extended: true}));
+const bodyParser = require("body-parser");
+get_route.use(bodyParser.urlencoded({ extended: true }));
 
-get_route.use(express.static(path.resolve(__dirname,'public')));
+get_route.use(express.static(path.resolve(__dirname, 'public')));
 
 get_route.set('view engine', 'ejs');
 get_route.set('views', "./views/users");
@@ -20,15 +20,16 @@ get_route.set('views', "./views/users");
 get_route.use(bodyParser.json());
 
 
-const multer= require("multer");
+const multer = require("multer");
 
-let uploader= multer({
+let uploader = multer({
     storage: multer.diskStorage({}),
-    limits: { fileSize: 500000}
+    limits: { fileSize: 500000 }
 });
 
 
 get_route.post('/upload-file', uploader.single("file"), storecontroller.uploadfile);
+get_route.get('/getalldata', storecontroller.getalldata);
 get_route.post('/upload', uploader.single("file"), xcontroller.uploadfile);
 get_route.get('/getx', xcontroller.getuser);
 get_route.post('/reg', xcontroller.reg);
@@ -76,5 +77,5 @@ get_route.post('/vendorresetpassword', user_controller.forgetuser);
 
 //get_route.post('/resetpassword', user_controller.e);
 
-module.exports= get_route;
+module.exports = get_route;
 
