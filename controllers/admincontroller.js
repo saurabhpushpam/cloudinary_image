@@ -7,19 +7,16 @@ const uploadfile = async (req, res) => {
         const upload = await Upload.uploadfile(req.file.path);   //filename, path
 
 
-        const userData = await user.findOne({ phone: req.body.phone });
+        // const userData = await Store.findOne({ phone: req.body.phone });
 
-        if (userData) {
-            let store = new Store({
-                phone: req.body.phone,
-                file_url: upload.secure_url
-            });
-            let record = await store.save();
-            res.send({ success: true, msg: 'file uploaded successfuly', url: record });
-        }
-        else {
-            res.send({ success: true, msg: 'phone already added', url: record });
-        }
+
+        let store = new Store({
+            // phone: req.body.phone,
+            file_url: upload.secure_url
+        });
+        let record = await store.save();
+        res.send({ success: true, msg: 'file uploaded successfuly', url: record });
+
     }
 
     catch (error) {
